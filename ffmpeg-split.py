@@ -218,7 +218,9 @@ def main():
                 options.split_length = int(split_filesize / float(file_size) * video_length)
         if not options.split_length:
             bailout()
-        split_by_seconds(video_length=video_length, **options.__dict__)
+
+        print(options)
+        # split_by_seconds(video_length=video_length, **options.__dict__)
 
 
 if __name__ == '__main__':
