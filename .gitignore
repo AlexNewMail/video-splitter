@@ -1,4 +1,7 @@
 *.pyc
 *.mp4
+*.avi
+*.mov
+*.wmv
 .idea
 splits-*

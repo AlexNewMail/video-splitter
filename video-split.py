@@ -4,6 +4,7 @@ import math
 import os
 import shlex
 import subprocess
+import shutil
 
 RATIO = 0.85
 
@@ -25,15 +26,16 @@ def split_by_seconds(filename, split_length, dir_name, vcodec="copy", acodec="co
                      extra="", video_length=None, **kwargs):
     if split_length and split_length <= 0:
         print("Split length can't be 0")
-        raise SystemExit
+        return
 
     if not video_length:
         video_length = get_video_length(filename)
 
     split_count = ceildiv(video_length, split_length)
     if split_count == 1:
+        shutil.copyfile(filename, dir_name + "/" + filename)
         print("Video length is less then the target split length.")
-        raise SystemExit
+        return
 
     split_cmd = ["ffmpeg", "-i", filename, "-vcodec", vcodec, "-acodec", acodec] + shlex.split(extra)
     try:
@@ -57,7 +59,7 @@ def split_by_seconds(filename, split_length, dir_name, vcodec="copy", acodec="co
 
 
 def main():
-    videos = [f for f in os.listdir('.') if os.path.isfile(f) and f.endswith('.mp4')]
+    videos = [f for f in os.listdir('.') if os.path.isfile(f) and f.endswith(('.mp4', '.avi', '.mov', '.wmv'))]
     for video in videos:
 
         dir_name = "splits-" + video.replace(' ', '-')
